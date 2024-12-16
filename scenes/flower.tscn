@@ -1,0 +1,85 @@
+[gd_scene load_steps=12 format=3 uid="uid://dstsdfmgex88s"]
+
+[ext_resource type="Texture2D" uid="uid://tcnoix846lxk" path="res://flower.png" id="1_4svsp"]
+[ext_resource type="Script" path="res://scenes/Flower.cs" id="1_pcjw4"]
+[ext_resource type="Texture2D" uid="uid://b4d7hhyxh6hfb" path="res://explode.png" id="3_0m1n0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h3idr"]
+atlas = ExtResource("3_0m1n0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4rrc"]
+atlas = ExtResource("3_0m1n0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuu8y"]
+atlas = ExtResource("3_0m1n0")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdaoe"]
+atlas = ExtResource("3_0m1n0")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsts0"]
+atlas = ExtResource("3_0m1n0")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83ijq"]
+atlas = ExtResource("3_0m1n0")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rsf7r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4svsp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h3idr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4rrc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuu8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdaoe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsts0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83ijq")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0cfvy"]
+size = Vector2(26, 26)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_pcjw4")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_rsf7r")
+animation = &"explode"
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -5)
+shape = SubResource("RectangleShape2D_0cfvy")
+
+[connection signal="animation_finished" from="Sprite2D" to="." method="_AnimationFinished"]
+[connection signal="area_entered" from="Area2D" to="." method="_AreaEntered"]
