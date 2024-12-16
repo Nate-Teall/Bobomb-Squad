@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dp1hhxfftmqhm"]
 
-[ext_resource type="Texture2D" uid="uid://beeh257vcn0qc" path="res://background.png" id="1_dfm11"]
+[ext_resource type="Texture2D" uid="uid://beeh257vcn0qc" path="res://Sprites/background.png" id="1_dfm11"]
 [ext_resource type="Script" path="res://scenes/GameManager.cs" id="4_rjfjx"]
 
 [node name="Node" type="Node"]

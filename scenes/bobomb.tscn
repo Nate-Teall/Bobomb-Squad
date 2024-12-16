@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b2rshrbbw5le7"]
 
 [ext_resource type="Script" path="res://scenes/Bobomb.cs" id="1_a1cmt"]
-[ext_resource type="Texture2D" uid="uid://bkmm5o0d3hfs" path="res://bobomb.png" id="1_w0oig"]
+[ext_resource type="Texture2D" uid="uid://bkmm5o0d3hfs" path="res://Sprites/bobomb.png" id="1_w0oig"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i75wa"]
 size = Vector2(42, 62)
