@@ -3,7 +3,8 @@ using System;
 
 public partial class Bobomb : CharacterBody2D
 {
-	private const float fallSpeed = 75;
+	private const float fallSpeed = 75f;
+	private const float rotationSpeed = 100f;
 
 	private float targetHeight;
 
@@ -11,7 +12,7 @@ public partial class Bobomb : CharacterBody2D
 
 	private Flower target;
 
-	private float finalRotation = 0f;
+	private Vector2 finalVel = new Vector2(0, fallSpeed);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -20,7 +21,7 @@ public partial class Bobomb : CharacterBody2D
 		gameManager = GetParent<GameManager>();
 
 		// Set the bobomb to fall at a fixed rate.
-		Velocity = new Vector2(0, fallSpeed);
+		Velocity = finalVel;
 	}
 
     // Called every frame(?)
@@ -31,8 +32,12 @@ public partial class Bobomb : CharacterBody2D
 			target = gameManager.GetTarget();
 			target.bombs.Add(this);
 			UpdateXVel();
-			UpdateRotation();
 		}
+
+		// Smoothly change velocity towards the target
+		Vector2 vel = Velocity;
+		vel.X = Mathf.MoveToward(vel.X, finalVel.X, rotationSpeed * (float)delta);
+		Velocity = vel;
 
         MoveAndSlide();
     }
@@ -40,7 +45,9 @@ public partial class Bobomb : CharacterBody2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-		Rotation = Mathf.MoveToward(Rotation, finalRotation, (Mathf.Pi / 3) * (float)delta);
+		// Rotation of the sprite will always follow it's current velocity
+		float angle = Mathf.Atan(Velocity.X / Velocity.Y);
+		Rotation = -angle;
 	}
 
 	// Delete bobomb when colliding w/ flower or cannonball
@@ -63,10 +70,11 @@ public partial class Bobomb : CharacterBody2D
 		);
 		vel.X = distToTarget.X / (distToTarget.Y / fallSpeed);
 
-		Velocity = vel;
+		finalVel.X = vel.X;
 	}
 
-	private void UpdateRotation() 
+	// Outdated
+	/*private void UpdateRotation() 
 	{
 		Vector2 distToTarget = new Vector2(
 			target.Position.X - Position.X,
@@ -75,5 +83,5 @@ public partial class Bobomb : CharacterBody2D
 
 		float angle = Mathf.Atan(distToTarget.X / distToTarget.Y);
 		finalRotation = -angle;
-	}
+	} */
 }
