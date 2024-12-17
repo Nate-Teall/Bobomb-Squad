@@ -18,6 +18,8 @@ public partial class Cannonball : CharacterBody2D
 		Fired
 	}
 
+	private const int speed = 800;
+
 	private Vector2 maxSling;
 	private Vector2 minSling;
 
@@ -25,9 +27,7 @@ public partial class Cannonball : CharacterBody2D
 
 	private Vector2 defaultPos;
 
-	private int speed;
-
-	private Line2D StringL, StringR;
+	private Line2D slingString;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -38,9 +38,9 @@ public partial class Cannonball : CharacterBody2D
 		minSling = new Vector2(0, viewPortSize.Y / 2);
 		maxSling = new Vector2(viewPortSize.X, viewPortSize.Y);
 
-		state = CannonState.Default;
+		slingString = GetNode<Line2D>("../String");
 
-		speed = 600;
+		state = CannonState.Default;
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -62,8 +62,7 @@ public partial class Cannonball : CharacterBody2D
 				break;
 
 			case CannonState.Fired:
-				// if pos = defaultPos 
-				//		hide strings
+				slingString.Hide();
 				break;
 		}
 	}
@@ -102,5 +101,9 @@ public partial class Cannonball : CharacterBody2D
 		}
 	}
 
-	public void _ScreenExited() { state = CannonState.Default; }
+	public void _ScreenExited() 
+	{ 
+		state = CannonState.Default; 
+		slingString.Show();
+	}
 }

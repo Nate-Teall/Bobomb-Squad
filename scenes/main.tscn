@@ -22,7 +22,7 @@ script = ExtResource("4_rjfjx")
 [node name="Cannonball" parent="." instance=ExtResource("3_wqq53")]
 position = Vector2(256, 464)
 
-[node name="StringL" type="Line2D" parent="."]
+[node name="String" type="Line2D" parent="."]
 position = Vector2(256, 464)
 width = 5.0
 script = ExtResource("4_rjcnn")
