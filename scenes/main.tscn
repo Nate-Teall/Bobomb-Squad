@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dp1hhxfftmqhm"]
+[gd_scene load_steps=4 format=3 uid="uid://dp1hhxfftmqhm"]
 
 [ext_resource type="Texture2D" uid="uid://beeh257vcn0qc" path="res://sprites/background.png" id="1_dfm11"]
+[ext_resource type="PackedScene" uid="uid://d30janhtbwswc" path="res://scenes/cannonball.tscn" id="3_wqq53"]
 [ext_resource type="Script" path="res://scenes/GameManager.cs" id="4_rjfjx"]
 
 [node name="Node" type="Node"]
@@ -16,3 +17,6 @@ texture = ExtResource("1_dfm11")
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("4_rjfjx")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_wqq53")]
+position = Vector2(256, 464)

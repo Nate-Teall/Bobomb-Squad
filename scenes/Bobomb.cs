@@ -24,7 +24,7 @@ public partial class Bobomb : CharacterBody2D
 		Velocity = finalVel;
 	}
 
-    // Called every frame(?)
+    // Called every frame
     public override void _PhysicsProcess(double delta)
     {
 		if ( (Position.Y > targetHeight) && target == null)
@@ -72,16 +72,4 @@ public partial class Bobomb : CharacterBody2D
 
 		finalVel.X = vel.X;
 	}
-
-	// Outdated
-	/*private void UpdateRotation() 
-	{
-		Vector2 distToTarget = new Vector2(
-			target.Position.X - Position.X,
-			target.Position.Y - Position.Y
-		);
-
-		float angle = Mathf.Atan(distToTarget.X / distToTarget.Y);
-		finalRotation = -angle;
-	} */
 }
