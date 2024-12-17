@@ -38,7 +38,7 @@ public partial class Cannonball : CharacterBody2D
 
 		state = CannonState.Default;
 
-		speed = 400;
+		speed = 600;
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -60,6 +60,8 @@ public partial class Cannonball : CharacterBody2D
 				break;
 
 			case CannonState.Fired:
+				// if pos = defaultPos 
+				//		hide strings
 				break;
 		}
 	}
@@ -71,6 +73,8 @@ public partial class Cannonball : CharacterBody2D
         if(Input.IsActionJustReleased("click") && state == CannonState.Aiming)
 		{
 			state = CannonState.Fired;
+			GetNode<Area2D>("Area2D").Monitoring = false;
+			GetNode<Area2D>("Area2D").Monitoring = true;
 			Velocity = (defaultPos - Position).Normalized() * speed;
 		}
     }
@@ -90,9 +94,11 @@ public partial class Cannonball : CharacterBody2D
 
     public void _AreaEntered(Area2D area)
 	{
-		if (area.GetParent() is Bobomb)
+		if (area.GetParent() is Bobomb && state == CannonState.Fired)
 		{
-			// Do something to increase the score...
+			area.GetParent<Bobomb>().QueueFree();
 		}
 	}
+
+	public void _ScreenExited() { state = CannonState.Default; }
 }

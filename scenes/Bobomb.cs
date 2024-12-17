@@ -53,7 +53,7 @@ public partial class Bobomb : CharacterBody2D
 	// Delete bobomb when colliding w/ flower or cannonball
 	public void _AreaEntered(Node2D area)
 	{
-		if ( !(area.GetParent() is Bobomb) )
+		if ( area.GetParent() is Flower )
 			QueueFree();
 	}
 
