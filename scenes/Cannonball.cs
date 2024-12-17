@@ -25,6 +25,8 @@ public partial class Cannonball : CharacterBody2D
 
 	private Vector2 defaultPos;
 
+	private int speed;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -35,6 +37,8 @@ public partial class Cannonball : CharacterBody2D
 		maxSling = new Vector2(viewPortSize.X, viewPortSize.Y);
 
 		state = CannonState.Default;
+
+		speed = 400;
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -56,23 +60,30 @@ public partial class Cannonball : CharacterBody2D
 				break;
 
 			case CannonState.Fired:
-				Velocity = new Vector2(75, 0);
 				break;
 		}
 	}
 
-	// Called every time an input event occurs within the cannonball's area
+	// Called every frame, holds *all* input from the previous frame
+    public override void _Input(InputEvent @event)
+    {
+		// Start firing the cannonball	 only after left click is released from the ball
+        if(Input.IsActionJustReleased("click") && state == CannonState.Aiming)
+		{
+			state = CannonState.Fired;
+			Velocity = (defaultPos - Position).Normalized() * speed;
+		}
+    }
+
+    // Called every time an input event occurs within the cannonball's area
     public void _InputEvent(Node viewport, InputEvent inputEvent, int shapeIdx)
 	{
+		// Start dragging the cannonball when the ball itself is clickeds
 		if(inputEvent is InputEventMouseButton)
 		{
 			if (inputEvent.IsPressed() && state == CannonState.Default)
 			{
 				state = CannonState.Aiming;
-			}
-			else
-			{
-				state = CannonState.Fired;
 			}
 		}
 	}
