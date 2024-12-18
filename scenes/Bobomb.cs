@@ -123,7 +123,9 @@ public partial class Bobomb : CharacterBody2D
 	public void _AreaEntered(Node2D area)
 	{
 		if ( area.GetParent() is Flower && state == BobombState.Flying )
+		{
 			QueueFree();
+		}
 	}
 
 	public void _ScreenExited() { QueueFree(); }

@@ -38,10 +38,8 @@ public partial class Flower : CharacterBody2D
 					bobomb.RemoveTarget();
 				}
 				sprite2D.Animation = "explode";
+				GetNode<Area2D>("Area2D").QueueFree();
 			}
 		}
 	}
-
-	// Called when the explode animation finished
-	public void _AnimationFinished() { GetNode<Area2D>("Area2D").QueueFree(); }
 }

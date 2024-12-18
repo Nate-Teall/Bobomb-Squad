@@ -69,9 +69,7 @@ public partial class GameManager : Node
 
 		if (lakituTimer >= timeToNextLakitu)
 		{
-			// Only spawn 1 lakitu at a time
-			if (!HasNode("Lakitu"))
-				CreateLakitu();
+			CreateLakitu();
 			timeToNextLakitu = GD.RandRange(minLakituTimer, maxLakituTimer);
 			lakituTimer = 0;
 		}
