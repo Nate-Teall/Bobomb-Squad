@@ -28,7 +28,7 @@ public partial class Bobomb : CharacterBody2D
 	private const double turnRange = Mathf.Pi / 3;
 	private const int turnCooldown = 1;
 	private double turnCooldownTimer = 0f;
-	private float angle = 0f;
+	private float velAngle = 0f;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -54,21 +54,21 @@ public partial class Bobomb : CharacterBody2D
 					{
 						// Reset the timer and the velocity's angle
 						turnCooldownTimer = 0;	
-						finalVel = finalVel.Rotated(-angle);
+						finalVel = finalVel.Rotated(-velAngle);
 
 						// Make a new velocity angle
-						angle = (float)GD.RandRange(-turnRange, turnRange);
-						finalVel = finalVel.Rotated(angle);
+						velAngle = (float)GD.RandRange(-turnRange, turnRange);
+						finalVel = finalVel.Rotated(velAngle);
 					}
 
 					// If near the side of the screen, (left or right eighth) slowly move back towards the center
 					if (Position.X < 64 || Position.X > 448)
 					{
-						finalVel = finalVel.Rotated(-angle);
-						angle = Mathf.Pi / 4;
+						finalVel = finalVel.Rotated(-velAngle);
+						velAngle = Mathf.Pi / 4;
 						// Determine whether to turn left or right
-						angle *= Position.X > 448 ? 1 : -1;
-						finalVel = finalVel.Rotated(angle);
+						velAngle *= Position.X > 448 ? 1 : -1;
+						finalVel = finalVel.Rotated(velAngle);
 					}
 				}
 				// In the bottom half of the screen, lock onto a flower and move towards it.
@@ -78,7 +78,11 @@ public partial class Bobomb : CharacterBody2D
 					{
 						target = gameManager.GetTarget();
 						target.bombs.Add(this);
-						UpdateXVel();
+
+						// Because I use MoveToward() to slowly change the bobomb's direction,
+						// they will be *slightly* off the mark. They still hit 95% of the time,
+						// and 100% if its set to instantly snap to the right angle
+						finalVel = (target.Position - Position).Normalized() * fallSpeed;
 					}
 				}
 
@@ -109,6 +113,7 @@ public partial class Bobomb : CharacterBody2D
 			case BobombState.Flying:
 				// While flying, rotation of the sprite will always follow it's current velocity
 				float angle = Mathf.Atan(Velocity.X / Velocity.Y);
+				//angle = Velocity.Angle();
 				Rotation = -angle;
 				break;
 			
@@ -146,20 +151,6 @@ public partial class Bobomb : CharacterBody2D
 	public void Die()
 	{
 		Die(new Vector2(GD.RandRange(-800, 800), -800));
-	}
-
-	// When getting a new target, determine how fast the bobomb needs to move to reach the flower.
-	private void UpdateXVel() 
-	{
-		Vector2 vel = Velocity;
-
-		Vector2 distToTarget = new Vector2(
-			target.Position.X - Position.X,
-			target.Position.Y - Position.Y
-		);
-		vel.X = distToTarget.X / (distToTarget.Y / fallSpeed);
-
-		finalVel.X = vel.X;
 	}
 
 }

@@ -150,5 +150,20 @@ theme_override_fonts/normal_font = ExtResource("8_4yi5u")
 theme_override_font_sizes/normal_font_size = 28
 text = "Score: 0"
 
+[node name="StartLabel" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = 23.0
+offset_top = 176.0
+offset_right = 507.0
+offset_bottom = 382.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_4yi5u")
+theme_override_font_sizes/normal_font_size = 28
+text = "* Bobomb Squad *
+
+ Press Space to 
+     Start"
+
 [connection signal="animation_looped" from="Toad" to="Toad" method="_AnimationLooped"]
 [connection signal="animation_looped" from="Toad2" to="Toad2" method="_AnimationLooped"]

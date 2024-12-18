@@ -2,7 +2,6 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 public partial class GameManager : Node
 {
@@ -23,7 +22,6 @@ public partial class GameManager : Node
 	private double timeElapsed = 0;
 
 	// Flower related variables
-	private int flowerCount = 4;
 	private List<Flower> flowers;
 
 	// Score related variables
@@ -37,26 +35,29 @@ public partial class GameManager : Node
 	private double timeToNextLakitu = 10;
 	private double lakituTimer = 0;
 
+	// Game state variables
+	private bool gameStarted = false;
+	private RichTextLabel startLabel;
+	private const string endText = "  * Game Over *\n\n Press Space to \n     Restart\n\n Score: ";
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		totalScoreLabel = GetNode<RichTextLabel>("../TotalScore");
+		startLabel = GetNode<RichTextLabel>("../StartLabel");
+
 		screenWidth = GetViewport().GetVisibleRect().Size.X;
 		screenHeight = GetViewport().GetVisibleRect().Size.Y;
-
-		flowers = new List<Flower>
-        {
-            CreateFlower(100, 708),
-            CreateFlower(200, 708),
-            CreateFlower(300, 708),
-            CreateFlower(400, 708)
-        };
 
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// Only spawn objects if the game is started
+		if (gameStarted == false)
+			return;
+
 		timeElapsed += delta;
 		lakituTimer += delta;
 
@@ -75,11 +76,40 @@ public partial class GameManager : Node
 		}
 	}
 
-	public void RemoveFlower(Flower flower) 
+    public override void _Input(InputEvent @event)
+    {
+        if (Input.IsActionJustPressed("start") && gameStarted == false)
+		{
+			gameStarted = true;
+			totalScore = 0;
+			totalScoreLabel.Text = "Score: 0";
+			startLabel.Hide();
+
+			flowers = new List<Flower>
+        	{
+            	CreateFlower(100, 708),
+            	CreateFlower(200, 708),
+            	CreateFlower(300, 708),
+            	CreateFlower(400, 708)
+        	};
+		}
+    }
+
+    public void RemoveFlower(Flower flower) 
 	{
-		flowerCount -= 1;
 		flowers.Remove(flower);
-		// GameOver(); ???
+		
+		if (flowers.Count == 0)
+		{
+			gameStarted = false;
+			foreach (Node child in GetChildren())
+			{
+				child.QueueFree();
+			}
+
+			startLabel.Text = endText + totalScore.ToString();
+			startLabel.Show();
+		}
 	}
 
 	public Flower GetTarget()
@@ -95,7 +125,7 @@ public partial class GameManager : Node
 		for (int i=0; i<bobombsHit; i++)
 		{
 			score += baseScore * (int)Mathf.Pow(2, i);
-			createLabel(positions.Dequeue(), baseScore * (int)Mathf.Pow(2, i));
+			CreateLabel(positions.Dequeue(), baseScore * (int)Mathf.Pow(2, i));
 		}
 
 		totalScore += score;
@@ -134,17 +164,21 @@ public partial class GameManager : Node
 			if (child is Bobomb)
 			{
 				Bobomb childBobomb = (Bobomb)child;
-				createLabel(childBobomb.Position, baseScore);
-				childBobomb.Die();
 
-				totalScore += baseScore;
+				if (childBobomb.state == Bobomb.BobombState.Flying)
+				{
+					CreateLabel(childBobomb.Position, baseScore);
+					childBobomb.Die();
+					totalScore += baseScore;
+				}
+				
 			}
 		}
 
 		GD.Print("New score: " + totalScore);
 	}
 
-	private void createLabel(Vector2 pos, int score)
+	private void CreateLabel(Vector2 pos, int score)
 	{
 		ScoreLabel instance = scoreLabel.Instantiate<ScoreLabel>();
 		AddSibling(instance);
