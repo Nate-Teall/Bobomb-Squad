@@ -126,6 +126,8 @@ public partial class Bobomb : CharacterBody2D
 			QueueFree();
 	}
 
+	public void _ScreenExited() { QueueFree(); }
+
 	public void RemoveTarget() { target = null; }
 
 	public void Die(Cannonball cannonball)
@@ -152,4 +154,5 @@ public partial class Bobomb : CharacterBody2D
 
 		finalVel.X = vel.X;
 	}
+
 }
