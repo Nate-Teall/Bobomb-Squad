@@ -18,6 +18,7 @@ public partial class Cannonball : CharacterBody2D
 	}
 
 	private static GameManager gameManager;
+	private static AudioStreamPlayer audio;
 
 	private const int speed = 800;
 
@@ -37,6 +38,7 @@ public partial class Cannonball : CharacterBody2D
 	public override void _Ready()
 	{
 		gameManager = GetNode<GameManager>("../GameManager");
+		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		defaultPos = new Vector2(256, 464);
 
 		Vector2 viewPortSize = GetViewport().GetVisibleRect().Size;
@@ -83,6 +85,12 @@ public partial class Cannonball : CharacterBody2D
 			GetNode<Area2D>("Area2D").Monitoring = true;
 			Velocity = (defaultPos - Position).Normalized() * speed;
 		}
+
+		// Mute bobomb hit sound 
+		if(Input.IsActionJustPressed("mute"))
+		{
+			audio.VolumeDb = audio.VolumeDb == -20 ? -80 : -20;
+		}
     }
 
     // Called every time an input event occurs within the cannonball's area
@@ -105,6 +113,10 @@ public partial class Cannonball : CharacterBody2D
 			if(area.GetParent<Bobomb>().state == Bobomb.BobombState.Flying)
 			{
 				hitLocations.Enqueue(Position);
+
+				audio.PitchScale = (float)(0.7 + (0.1 * bobombsHit)); 
+				audio.Play();
+				
 				bobombsHit++;
 			}
 			

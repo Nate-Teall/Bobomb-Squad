@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public partial class Flower : CharacterBody2D
 {
-	private GameManager gameManager;
+	private static GameManager gameManager;
 	private AnimatedSprite2D sprite2D;
 
 	public List<Bobomb> bombs { get; private set; }
@@ -23,8 +23,8 @@ public partial class Flower : CharacterBody2D
 	{
 	}
 
-	// Called when any area collides with the flower
-	public void _AreaEntered(Area2D area)
+    // Called when any area collides with the flower
+    public void _AreaEntered(Area2D area)
 	{
 		Node parent = area.GetParent();
 		if ( parent is Bobomb ) 
@@ -37,6 +37,7 @@ public partial class Flower : CharacterBody2D
 				{
 					bobomb.RemoveTarget();
 				}
+
 				sprite2D.Animation = "explode";
 				GetNode<Area2D>("Area2D").QueueFree();
 			}

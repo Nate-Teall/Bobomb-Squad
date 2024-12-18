@@ -40,11 +40,18 @@ public partial class GameManager : Node
 	private RichTextLabel startLabel;
 	private const string endText = "  * Game Over *\n\n Press Space to \n     Restart\n\n Score: ";
 
+	// Audio related variables
+	private AudioStreamPlayer musicPlayer;
+	private AudioStreamPlayer flowerHitSound;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		totalScoreLabel = GetNode<RichTextLabel>("../TotalScore");
 		startLabel = GetNode<RichTextLabel>("../StartLabel");
+
+		musicPlayer = GetNode<AudioStreamPlayer>("Music");
+		flowerHitSound = GetNode<AudioStreamPlayer>("FlowerHitSound");
 
 		screenWidth = GetViewport().GetVisibleRect().Size.X;
 		screenHeight = GetViewport().GetVisibleRect().Size.Y;
@@ -92,12 +99,22 @@ public partial class GameManager : Node
             	CreateFlower(300, 708),
             	CreateFlower(400, 708)
         	};
+
+			flowerHitSound.PitchScale = 0.5f;
+		}
+        // Mute flower hit sound 
+		if(Input.IsActionJustPressed("mute"))
+		{
+			musicPlayer.StreamPaused = !musicPlayer.StreamPaused;
+			flowerHitSound.VolumeDb = flowerHitSound.VolumeDb == 0 ? -80 : 0;
 		}
     }
 
     public void RemoveFlower(Flower flower) 
 	{
 		flowers.Remove(flower);
+		flowerHitSound.PitchScale += 0.5f;
+		flowerHitSound.Play();
 		
 		if (flowers.Count == 0)
 		{
@@ -109,7 +126,7 @@ public partial class GameManager : Node
 					Bobomb childBobomb = (Bobomb)child;
 					childBobomb.Die();
 				}
-				else
+				else if (child is Flower)
 				{
 					child.QueueFree();
 				}

@@ -4,12 +4,12 @@
 [ext_resource type="Script" path="res://scripts/GameManager.cs" id="2_lkktv"]
 [ext_resource type="PackedScene" uid="uid://d30janhtbwswc" path="res://scenes/cannonball.tscn" id="3_wqq53"]
 [ext_resource type="Script" path="res://scripts/String.cs" id="5_bbuto"]
+[ext_resource type="AudioStream" uid="uid://dl4wccqpmkjmh" path="res://audio/ahh.mp3" id="5_cdlia"]
 [ext_resource type="Texture2D" uid="uid://dt2iy5bvam6io" path="res://sprites/toad.png" id="5_u70gw"]
 [ext_resource type="Script" path="res://scripts/Toad.cs" id="7_4ynwx"]
 [ext_resource type="Texture2D" uid="uid://br7te4rtiv2bu" path="res://sprites/brick.png" id="7_bwa5p"]
 [ext_resource type="FontFile" uid="uid://bg1rvxstpw6b" path="res://fonts/sm64-v2-1.otf" id="8_4yi5u"]
 [ext_resource type="AudioStream" uid="uid://coepbu3s0js5b" path="res://audio/music.mp3" id="9_x1yur"]
-[ext_resource type="Script" path="res://scripts/Music.cs" id="10_lytt3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53xq1"]
 atlas = ExtResource("5_u70gw")
@@ -93,6 +93,16 @@ texture = ExtResource("1_dfm11")
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("2_lkktv")
 
+[node name="Music" type="AudioStreamPlayer" parent="GameManager"]
+stream = ExtResource("9_x1yur")
+volume_db = -10.0
+autoplay = true
+parameters/looping = true
+
+[node name="FlowerHitSound" type="AudioStreamPlayer" parent="GameManager"]
+stream = ExtResource("5_cdlia")
+pitch_scale = 0.5
+
 [node name="Cannonball" parent="." instance=ExtResource("3_wqq53")]
 position = Vector2(256, 464)
 
@@ -166,13 +176,6 @@ text = "* Bobomb Squad *
 
  Press Space to 
      Start"
-
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_x1yur")
-volume_db = -10.0
-autoplay = true
-parameters/looping = true
-script = ExtResource("10_lytt3")
 
 [connection signal="animation_looped" from="Toad" to="Toad" method="_AnimationLooped"]
 [connection signal="animation_looped" from="Toad2" to="Toad2" method="_AnimationLooped"]
