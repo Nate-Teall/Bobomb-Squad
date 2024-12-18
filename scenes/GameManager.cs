@@ -104,7 +104,16 @@ public partial class GameManager : Node
 			gameStarted = false;
 			foreach (Node child in GetChildren())
 			{
-				child.QueueFree();
+				if (child is Bobomb)
+				{
+					Bobomb childBobomb = (Bobomb)child;
+					childBobomb.Die();
+				}
+				else
+				{
+					child.QueueFree();
+				}
+				
 			}
 
 			startLabel.Text = endText + totalScore.ToString();
@@ -133,28 +142,6 @@ public partial class GameManager : Node
 		GD.Print("New score: " + totalScore);
 	}
 
-	private void CreateBobomb()
-	{
-		Bobomb instance = bobomb.Instantiate<Bobomb>();
-		AddChild(instance);
-		instance.Position = new Vector2((float)GD.RandRange(0, screenWidth), -32);
-	}
-
-	private Flower CreateFlower(int x, int y)
-	{
-		Flower instance = flower.Instantiate<Flower>();
-		AddChild(instance);
-		instance.Position = new Vector2(x, y);
-
-		return instance;
-	}
-
-	private void CreateLakitu()
-	{
-		Lakitu instance = lakitu.Instantiate<Lakitu>();
-		AddChild(instance);
-	}
-
 	public void Clear() 
 	{
 		// There may be an easier way to get a list of *only* the Bobombs
@@ -176,6 +163,28 @@ public partial class GameManager : Node
 		}
 
 		GD.Print("New score: " + totalScore);
+	}
+
+	private void CreateBobomb()
+	{
+		Bobomb instance = bobomb.Instantiate<Bobomb>();
+		AddChild(instance);
+		instance.Position = new Vector2((float)GD.RandRange(0, screenWidth), -32);
+	}
+
+	private Flower CreateFlower(int x, int y)
+	{
+		Flower instance = flower.Instantiate<Flower>();
+		AddChild(instance);
+		instance.Position = new Vector2(x, y);
+
+		return instance;
+	}
+
+	private void CreateLakitu()
+	{
+		Lakitu instance = lakitu.Instantiate<Lakitu>();
+		AddChild(instance);
 	}
 
 	private void CreateLabel(Vector2 pos, int score)
