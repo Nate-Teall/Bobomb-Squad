@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Cannonball : CharacterBody2D
 {
@@ -30,6 +31,7 @@ public partial class Cannonball : CharacterBody2D
 	private Line2D slingString;
 
 	private int bobombsHit = 0; 
+	private Queue<Vector2> hitLocations = new Queue<Vector2>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -101,8 +103,11 @@ public partial class Cannonball : CharacterBody2D
 		if (area.GetParent() is Bobomb && state == CannonState.Fired)
 		{
 			if(area.GetParent<Bobomb>().state == Bobomb.BobombState.Flying)
+			{
+				hitLocations.Enqueue(Position);
 				bobombsHit++;
-
+			}
+			
 			area.GetParent<Bobomb>().Die(Velocity);
 		}
 		else if (area.GetParent() is Lakitu)
@@ -115,7 +120,8 @@ public partial class Cannonball : CharacterBody2D
 	{ 
 		state = CannonState.Default; 
 		slingString.Show();
-		gameManager.CountScore(bobombsHit);
+		gameManager.CountScore(bobombsHit, hitLocations);
 		bobombsHit = 0;
+		hitLocations.Clear();
 	}
 }

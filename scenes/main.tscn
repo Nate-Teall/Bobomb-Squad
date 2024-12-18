@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dp1hhxfftmqhm"]
+[gd_scene load_steps=16 format=3 uid="uid://dp1hhxfftmqhm"]
 
 [ext_resource type="Texture2D" uid="uid://beeh257vcn0qc" path="res://sprites/background.png" id="1_dfm11"]
 [ext_resource type="PackedScene" uid="uid://d30janhtbwswc" path="res://scenes/cannonball.tscn" id="3_wqq53"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dt2iy5bvam6io" path="res://sprites/toad.png" id="5_u70gw"]
 [ext_resource type="Script" path="res://scenes/Toad.cs" id="6_kg1ky"]
 [ext_resource type="Texture2D" uid="uid://br7te4rtiv2bu" path="res://sprites/brick.png" id="7_bwa5p"]
+[ext_resource type="FontFile" uid="uid://bg1rvxstpw6b" path="res://fonts/sm64-v2-1.otf" id="8_4yi5u"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53xq1"]
 atlas = ExtResource("5_u70gw")
@@ -139,6 +140,15 @@ texture_filter = 1
 position = Vector2(448, 616)
 scale = Vector2(2, 2)
 texture = ExtResource("7_bwa5p")
+
+[node name="TotalScore" type="RichTextLabel" parent="."]
+offset_right = 511.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("8_4yi5u")
+theme_override_font_sizes/normal_font_size = 28
+text = "Score: 0"
 
 [connection signal="animation_looped" from="Toad" to="Toad" method="_AnimationLooped"]
 [connection signal="animation_looped" from="Toad2" to="Toad2" method="_AnimationLooped"]

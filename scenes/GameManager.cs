@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public partial class GameManager : Node
 {
@@ -13,6 +14,7 @@ public partial class GameManager : Node
 	private static PackedScene bobomb = GD.Load<PackedScene>("res://scenes/bobomb.tscn");
 	private static PackedScene flower = GD.Load<PackedScene>("res://scenes/flower.tscn");
 	private static PackedScene lakitu = GD.Load<PackedScene>("res://scenes/lakitu.tscn");
+	private static PackedScene scoreLabel = GD.Load<PackedScene>("res://scenes/score_label.tscn");
 	
 	// Bomb spawning variables
 	private const double maxTimer = 2;
@@ -24,9 +26,12 @@ public partial class GameManager : Node
 	private int flowerCount = 4;
 	private List<Flower> flowers;
 
+	// Score related variables
 	private const int baseScore = 100;
 	private int totalScore = 0;
+	private RichTextLabel totalScoreLabel;
 
+	// Lakitu spawning variables
 	private const double maxLakituTimer = 20;
 	private const double minLakituTimer = 15;
 	private double timeToNextLakitu = 10;
@@ -35,6 +40,7 @@ public partial class GameManager : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		totalScoreLabel = GetNode<RichTextLabel>("../TotalScore");
 		screenWidth = GetViewport().GetVisibleRect().Size.X;
 		screenHeight = GetViewport().GetVisibleRect().Size.Y;
 
@@ -84,17 +90,18 @@ public partial class GameManager : Node
 		return flowers[i];
 	}
 
-	public void CountScore(int bobombsHit)
+	public void CountScore(int bobombsHit, Queue<Vector2> positions)
 	{
 		int score = 0;
 
 		for (int i=0; i<bobombsHit; i++)
 		{
 			score += baseScore * (int)Mathf.Pow(2, i);
-			GD.Print("+" + (baseScore * (int)Mathf.Pow(2, i)));
+			createLabel(positions.Dequeue(), baseScore * (int)Mathf.Pow(2, i));
 		}
 
 		totalScore += score;
+		totalScoreLabel.Text = "Score: " + totalScore.ToString();
 		GD.Print("New score: " + totalScore);
 	}
 
@@ -129,6 +136,7 @@ public partial class GameManager : Node
 			if (child is Bobomb)
 			{
 				Bobomb childBobomb = (Bobomb)child;
+				createLabel(childBobomb.Position, baseScore);
 				childBobomb.Die();
 
 				totalScore += baseScore;
@@ -136,5 +144,17 @@ public partial class GameManager : Node
 		}
 
 		GD.Print("New score: " + totalScore);
+	}
+
+	private void createLabel(Vector2 pos, int score)
+	{
+		ScoreLabel instance = scoreLabel.Instantiate<ScoreLabel>();
+		AddSibling(instance);
+		instance.Position = pos;
+		// _Ready normally will be called before setting the position
+		// Would be nice if we could make a constructor for the ScoreLabel, 
+		// 	but I don't think that's possible
+		instance._Ready();
+		instance.Text = score.ToString(); 
 	}
 }

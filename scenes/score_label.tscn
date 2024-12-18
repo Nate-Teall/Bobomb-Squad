@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfr6oqlqqmpum"]
+
+[ext_resource type="FontFile" uid="uid://bg1rvxstpw6b" path="res://fonts/sm64-v2-1.otf" id="1_gaka0"]
+[ext_resource type="Script" path="res://scenes/ScoreLabel.cs" id="2_bouj2"]
+
+[node name="ScoreLabel" type="RichTextLabel"]
+texture_filter = 1
+clip_contents = false
+offset_right = 190.0
+offset_bottom = 40.0
+theme_override_colors/default_color = Color(0.920194, 0.83563, 1.92523e-06, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("1_gaka0")
+theme_override_font_sizes/normal_font_size = 28
+script = ExtResource("2_bouj2")
