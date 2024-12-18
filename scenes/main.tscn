@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://dp1hhxfftmqhm"]
 
 [ext_resource type="Texture2D" uid="uid://beeh257vcn0qc" path="res://sprites/background.png" id="1_dfm11"]
+[ext_resource type="Script" path="res://scripts/GameManager.cs" id="2_lkktv"]
 [ext_resource type="PackedScene" uid="uid://d30janhtbwswc" path="res://scenes/cannonball.tscn" id="3_wqq53"]
-[ext_resource type="Script" path="res://scenes/String.cs" id="4_rjcnn"]
-[ext_resource type="Script" path="res://scenes/GameManager.cs" id="4_rjfjx"]
+[ext_resource type="Script" path="res://scripts/String.cs" id="5_bbuto"]
 [ext_resource type="Texture2D" uid="uid://dt2iy5bvam6io" path="res://sprites/toad.png" id="5_u70gw"]
-[ext_resource type="Script" path="res://scenes/Toad.cs" id="6_kg1ky"]
+[ext_resource type="Script" path="res://scripts/Toad.cs" id="7_4ynwx"]
 [ext_resource type="Texture2D" uid="uid://br7te4rtiv2bu" path="res://sprites/brick.png" id="7_bwa5p"]
 [ext_resource type="FontFile" uid="uid://bg1rvxstpw6b" path="res://fonts/sm64-v2-1.otf" id="8_4yi5u"]
 
@@ -89,7 +89,7 @@ grow_vertical = 2
 texture = ExtResource("1_dfm11")
 
 [node name="GameManager" type="Node" parent="."]
-script = ExtResource("4_rjfjx")
+script = ExtResource("2_lkktv")
 
 [node name="Cannonball" parent="." instance=ExtResource("3_wqq53")]
 position = Vector2(256, 464)
@@ -97,7 +97,7 @@ position = Vector2(256, 464)
 [node name="String" type="Line2D" parent="."]
 position = Vector2(256, 464)
 width = 5.0
-script = ExtResource("4_rjcnn")
+script = ExtResource("5_bbuto")
 
 [node name="Toad" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -105,7 +105,7 @@ position = Vector2(321, 592)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_uetol")
 autoplay = "default"
-script = ExtResource("6_kg1ky")
+script = ExtResource("7_4ynwx")
 
 [node name="Toad2" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -113,7 +113,7 @@ position = Vector2(69, 592)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_uetol")
 autoplay = "default"
-script = ExtResource("6_kg1ky")
+script = ExtResource("7_4ynwx")
 
 [node name="Bricks" type="Node" parent="."]
 

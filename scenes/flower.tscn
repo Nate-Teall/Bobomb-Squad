@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dstsdfmgex88s"]
 
 [ext_resource type="Texture2D" uid="uid://tcnoix846lxk" path="res://sprites/flower.png" id="1_4svsp"]
-[ext_resource type="Script" path="res://scenes/Flower.cs" id="1_pcjw4"]
+[ext_resource type="Script" path="res://scripts/Flower.cs" id="1_n8ihn"]
 [ext_resource type="Texture2D" uid="uid://b4d7hhyxh6hfb" path="res://sprites/explode.png" id="3_0m1n0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h3idr"]
@@ -66,7 +66,7 @@ animations = [{
 size = Vector2(26, 26)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-script = ExtResource("1_pcjw4")
+script = ExtResource("1_n8ihn")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -74,6 +74,8 @@ scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_rsf7r")
 animation = &"explode"
 autoplay = "default"
+frame = 5
+frame_progress = 1.0
 
 [node name="Area2D" type="Area2D" parent="."]
 

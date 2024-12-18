@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dfr6oqlqqmpum"]
 
 [ext_resource type="FontFile" uid="uid://bg1rvxstpw6b" path="res://fonts/sm64-v2-1.otf" id="1_gaka0"]
-[ext_resource type="Script" path="res://scenes/ScoreLabel.cs" id="2_bouj2"]
+[ext_resource type="Script" path="res://scripts/ScoreLabel.cs" id="2_mtgr3"]
 
 [node name="ScoreLabel" type="RichTextLabel"]
 texture_filter = 1
@@ -13,4 +13,4 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/normal_font = ExtResource("1_gaka0")
 theme_override_font_sizes/normal_font_size = 28
-script = ExtResource("2_bouj2")
+script = ExtResource("2_mtgr3")
