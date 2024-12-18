@@ -130,7 +130,7 @@ public partial class Bobomb : CharacterBody2D
 
 	public void RemoveTarget() { target = null; }
 
-	public void Die(Cannonball cannonball)
+	public void Die(Vector2 vel)
 	{
 		state = BobombState.Dying;
 		Explosion instance = explosion.Instantiate<Explosion>();
@@ -138,7 +138,7 @@ public partial class Bobomb : CharacterBody2D
 		instance.Position = Position;
 		
 		// Inherit the cannonball's velocity
-		Velocity = cannonball.Velocity.Normalized() * deathSpeed;
+		Velocity = vel.Normalized() * deathSpeed;
 	}
 
 	// When getting a new target, determine how fast the bobomb needs to move to reach the flower.

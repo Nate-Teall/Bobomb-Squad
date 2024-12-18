@@ -16,6 +16,8 @@ public partial class Cannonball : CharacterBody2D
 		Fired
 	}
 
+	private static GameManager gameManager;
+
 	private const int speed = 800;
 
 	private Vector2 maxSling;
@@ -27,9 +29,12 @@ public partial class Cannonball : CharacterBody2D
 
 	private Line2D slingString;
 
+	private int bobombsHit = 0; 
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		gameManager = GetNode<GameManager>("../GameManager");
 		defaultPos = new Vector2(256, 464);
 
 		Vector2 viewPortSize = GetViewport().GetVisibleRect().Size;
@@ -95,7 +100,8 @@ public partial class Cannonball : CharacterBody2D
 	{
 		if (area.GetParent() is Bobomb && state == CannonState.Fired)
 		{
-			area.GetParent<Bobomb>().Die(this);
+			area.GetParent<Bobomb>().Die(Velocity);
+			bobombsHit++;
 		}
 	}
 
@@ -103,5 +109,7 @@ public partial class Cannonball : CharacterBody2D
 	{ 
 		state = CannonState.Default; 
 		slingString.Show();
+		gameManager.CountScore(bobombsHit);
+		bobombsHit = 0;
 	}
 }

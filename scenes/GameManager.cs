@@ -23,6 +23,9 @@ public partial class GameManager : Node
 	private int flowerCount = 4;
 	private List<Flower> flowers;
 
+	private const int baseScore = 100;
+	private int totalScore = 0;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -63,6 +66,20 @@ public partial class GameManager : Node
 	{
 		int i = (int)(GD.Randi() % flowers.Count);
 		return flowers[i];
+	}
+
+	public void CountScore(int bobombsHit)
+	{
+		int score = 0;
+
+		for (int i=0; i<bobombsHit; i++)
+		{
+			score += baseScore * (int)Mathf.Pow(2, i);
+			GD.Print("+" + (baseScore * (int)Mathf.Pow(2, i)).ToString());
+		}
+
+		totalScore += score;
+		GD.Print("New score: " + totalScore.ToString());
 	}
 
 	private void CreateBobomb()
