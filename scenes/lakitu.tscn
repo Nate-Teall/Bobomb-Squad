@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmq27sgngp58r"]
+
+[ext_resource type="Texture2D" uid="uid://ctcm3fvrjals1" path="res://sprites/lakitu.png" id="1_3x01m"]
+[ext_resource type="Script" path="res://scenes/Lakitu.cs" id="2_iqu71"]
+
+[node name="Lakitu" type="Sprite2D"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_3x01m")
+script = ExtResource("2_iqu71")

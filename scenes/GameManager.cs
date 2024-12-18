@@ -12,6 +12,7 @@ public partial class GameManager : Node
 	// Instances
 	private static PackedScene bobomb = GD.Load<PackedScene>("res://scenes/bobomb.tscn");
 	private static PackedScene flower = GD.Load<PackedScene>("res://scenes/flower.tscn");
+	private static PackedScene lakitu = GD.Load<PackedScene>("res://scenes/lakitu.tscn");
 	
 	// Bomb spawning variables
 	private const double maxTimer = 2;
@@ -25,6 +26,11 @@ public partial class GameManager : Node
 
 	private const int baseScore = 100;
 	private int totalScore = 0;
+
+	private const double maxLakituTimer = 10;
+	private const double minLakituTimer = 7;
+	private double timeToNextLakitu = 10;
+	private double lakituTimer = 0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -46,12 +52,22 @@ public partial class GameManager : Node
 	public override void _Process(double delta)
 	{
 		timeElapsed += delta;
+		lakituTimer += delta;
 
 		if (timeElapsed >= timeToNextSpawn)
 		{
 			CreateBobomb();
 			timeToNextSpawn = GD.RandRange(minTimer, maxTimer);
 			timeElapsed = 0;
+		}
+
+		if (lakituTimer >= timeToNextLakitu)
+		{
+			// Only spawn 1 lakitu at a time
+			if (!HasNode("Lakitu"))
+				CreateLakitu();
+			timeToNextLakitu = GD.RandRange(minLakituTimer, maxLakituTimer);
+			lakituTimer = 0;
 		}
 	}
 
@@ -96,5 +112,11 @@ public partial class GameManager : Node
 		instance.Position = new Vector2(x, y);
 
 		return instance;
+	}
+
+	private void CreateLakitu()
+	{
+		Lakitu instance = lakitu.Instantiate<Lakitu>();
+		AddChild(instance);
 	}
 }
