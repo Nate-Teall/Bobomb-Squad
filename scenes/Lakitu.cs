@@ -7,9 +7,12 @@ public partial class Lakitu : Sprite2D
 	private const float pauseTime = 0.5f;
 	private float timer = 0f;
 
+	private GameManager gameManager;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		gameManager = GetParent<GameManager>();
 		Position = new Vector2(25, 160);
 	}
 
@@ -33,5 +36,11 @@ public partial class Lakitu : Sprite2D
 		Vector2 pos = Position;
 		pos.X += speed * (float)delta;
 		Position = pos;
+	}
+
+	public void Die()
+	{
+		gameManager.Clear();
+		QueueFree();
 	}
 }

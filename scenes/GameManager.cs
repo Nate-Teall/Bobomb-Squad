@@ -1,6 +1,6 @@
 using Godot;
+using Godot.Collections;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public partial class GameManager : Node
@@ -27,8 +27,8 @@ public partial class GameManager : Node
 	private const int baseScore = 100;
 	private int totalScore = 0;
 
-	private const double maxLakituTimer = 10;
-	private const double minLakituTimer = 7;
+	private const double maxLakituTimer = 20;
+	private const double minLakituTimer = 15;
 	private double timeToNextLakitu = 10;
 	private double lakituTimer = 0;
 
@@ -91,11 +91,11 @@ public partial class GameManager : Node
 		for (int i=0; i<bobombsHit; i++)
 		{
 			score += baseScore * (int)Mathf.Pow(2, i);
-			GD.Print("+" + (baseScore * (int)Mathf.Pow(2, i)).ToString());
+			GD.Print("+" + (baseScore * (int)Mathf.Pow(2, i)));
 		}
 
 		totalScore += score;
-		GD.Print("New score: " + totalScore.ToString());
+		GD.Print("New score: " + totalScore);
 	}
 
 	private void CreateBobomb()
@@ -118,5 +118,23 @@ public partial class GameManager : Node
 	{
 		Lakitu instance = lakitu.Instantiate<Lakitu>();
 		AddChild(instance);
+	}
+
+	public void Clear() 
+	{
+		// There may be an easier way to get a list of *only* the Bobombs
+		Array<Node> children = GetChildren();
+		foreach (Node child in children)
+		{
+			if (child is Bobomb)
+			{
+				Bobomb childBobomb = (Bobomb)child;
+				childBobomb.Die();
+
+				totalScore += baseScore;
+			}
+		}
+
+		GD.Print("New score: " + totalScore);
 	}
 }

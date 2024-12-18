@@ -100,8 +100,14 @@ public partial class Cannonball : CharacterBody2D
 	{
 		if (area.GetParent() is Bobomb && state == CannonState.Fired)
 		{
+			if(area.GetParent<Bobomb>().state == Bobomb.BobombState.Flying)
+				bobombsHit++;
+
 			area.GetParent<Bobomb>().Die(Velocity);
-			bobombsHit++;
+		}
+		else if (area.GetParent() is Lakitu)
+		{
+			area.GetParent<Lakitu>().Die();
 		}
 	}
 

@@ -141,6 +141,11 @@ public partial class Bobomb : CharacterBody2D
 		Velocity = vel.Normalized() * deathSpeed;
 	}
 
+	public void Die()
+	{
+		Die(new Vector2(GD.RandRange(-800, 800), -800));
+	}
+
 	// When getting a new target, determine how fast the bobomb needs to move to reach the flower.
 	private void UpdateXVel() 
 	{
