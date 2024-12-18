@@ -26,14 +26,19 @@ public partial class Flower : CharacterBody2D
 	// Called when any area collides with the flower
 	public void _AreaEntered(Area2D area)
 	{
-		if (area.GetParent() is Bobomb) 
+		Node parent = area.GetParent();
+		if ( parent is Bobomb ) 
 		{
-			gameManager.RemoveFlower(this);
-			foreach( Bobomb bobomb in bombs)
+			Bobomb attacker = (Bobomb)parent;
+			if (attacker.state == Bobomb.BobombState.Flying)
 			{
-				bobomb.RemoveTarget();
+				gameManager.RemoveFlower(this);
+				foreach( Bobomb bobomb in bombs)
+				{
+					bobomb.RemoveTarget();
+				}
+				sprite2D.Animation = "explode";
 			}
-			sprite2D.Animation = "explode";
 		}
 	}
 

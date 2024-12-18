@@ -3,14 +3,14 @@ using System;
 
 public partial class Bobomb : CharacterBody2D
 {
-	private enum BobombState
+	public enum BobombState
 	{
 		Flying,
 		Dying
 	}
 
-	private BobombState state;
-	private const float fallSpeed = 75f;
+	public BobombState state { get; private set; }
+	private const float fallSpeed = 100f;
 	private const float deathSpeed = 500f;
 	private const float rotationSpeed = 100f;
 
@@ -24,7 +24,7 @@ public partial class Bobomb : CharacterBody2D
 
 	// Bobombs will curve left/right randomly
 	private const double turnRange = Mathf.Pi / 3;
-	private const int turnCooldown = 2;
+	private const int turnCooldown = 1;
 	private double turnCooldownTimer = 0f;
 	private float angle = 0f;
 
@@ -112,7 +112,7 @@ public partial class Bobomb : CharacterBody2D
 			
 			case BobombState.Dying:
 				// After being hit, boboms will become affected by gravity and spin out of control
-				Rotation += 12 * (float)delta;
+				Rotation += 18 * (float)delta;
 				break;
 		}
 	}
