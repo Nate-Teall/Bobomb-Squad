@@ -14,6 +14,8 @@ public partial class Bobomb : CharacterBody2D
 	private const float deathSpeed = 500f;
 	private const float rotationSpeed = 100f;
 
+	private static PackedScene explosion = GD.Load<PackedScene>("res://scenes/explosion.tscn");
+
 	private float targetHeight;
 
 	private GameManager gameManager;
@@ -129,6 +131,10 @@ public partial class Bobomb : CharacterBody2D
 	public void Die(Cannonball cannonball)
 	{
 		state = BobombState.Dying;
+		Explosion instance = explosion.Instantiate<Explosion>();
+		AddSibling(instance);
+		instance.Position = Position;
+		
 		// Inherit the cannonball's velocity
 		Velocity = cannonball.Velocity.Normalized() * deathSpeed;
 	}

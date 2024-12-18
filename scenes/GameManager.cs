@@ -10,8 +10,8 @@ public partial class GameManager : Node
 	private float screenHeight;
 
 	// Instances
-	private PackedScene bobomb = GD.Load<PackedScene>("res://scenes/bobomb.tscn");
-	private PackedScene flower = GD.Load<PackedScene>("res://scenes/flower.tscn");
+	private static PackedScene bobomb = GD.Load<PackedScene>("res://scenes/bobomb.tscn");
+	private static PackedScene flower = GD.Load<PackedScene>("res://scenes/flower.tscn");
 	
 	// Bomb spawning variables
 	private const double maxTimer = 2;
