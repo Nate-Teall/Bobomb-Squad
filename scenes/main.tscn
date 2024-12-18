@@ -1,9 +1,79 @@
-[gd_scene load_steps=5 format=3 uid="uid://dp1hhxfftmqhm"]
+[gd_scene load_steps=14 format=3 uid="uid://dp1hhxfftmqhm"]
 
 [ext_resource type="Texture2D" uid="uid://beeh257vcn0qc" path="res://sprites/background.png" id="1_dfm11"]
 [ext_resource type="PackedScene" uid="uid://d30janhtbwswc" path="res://scenes/cannonball.tscn" id="3_wqq53"]
 [ext_resource type="Script" path="res://scenes/String.cs" id="4_rjcnn"]
 [ext_resource type="Script" path="res://scenes/GameManager.cs" id="4_rjfjx"]
+[ext_resource type="Texture2D" uid="uid://dt2iy5bvam6io" path="res://sprites/toad.png" id="5_u70gw"]
+[ext_resource type="Script" path="res://scenes/Toad.cs" id="6_kg1ky"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53xq1"]
+atlas = ExtResource("5_u70gw")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4h61r"]
+atlas = ExtResource("5_u70gw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkykt"]
+atlas = ExtResource("5_u70gw")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0vuo"]
+atlas = ExtResource("5_u70gw")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahfaq"]
+atlas = ExtResource("5_u70gw")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbjh7"]
+atlas = ExtResource("5_u70gw")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uetol"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53xq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4h61r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkykt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0vuo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahfaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbjh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4h61r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkykt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0vuo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahfaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbjh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53xq1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Node" type="Node"]
 
@@ -26,3 +96,22 @@ position = Vector2(256, 464)
 position = Vector2(256, 464)
 width = 5.0
 script = ExtResource("4_rjcnn")
+
+[node name="Toad" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(321, 592)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_uetol")
+autoplay = "default"
+script = ExtResource("6_kg1ky")
+
+[node name="Toad2" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(69, 592)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_uetol")
+autoplay = "default"
+script = ExtResource("6_kg1ky")
+
+[connection signal="animation_looped" from="Toad" to="Toad" method="_AnimationLooped"]
+[connection signal="animation_looped" from="Toad2" to="Toad2" method="_AnimationLooped"]

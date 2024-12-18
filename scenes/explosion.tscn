@@ -54,6 +54,7 @@ animations = [{
 }]
 
 [node name="Explosion" type="AnimatedSprite2D"]
+texture_filter = 1
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wijlu")
 autoplay = "default"
