@@ -1,7 +1,5 @@
 using Godot;
 using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 
 public partial class Cannonball : CharacterBody2D
 {
@@ -97,7 +95,7 @@ public partial class Cannonball : CharacterBody2D
 	{
 		if (area.GetParent() is Bobomb && state == CannonState.Fired)
 		{
-			area.GetParent<Bobomb>().QueueFree();
+			area.GetParent<Bobomb>().Die(this);
 		}
 	}
 
