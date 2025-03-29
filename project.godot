@@ -19,6 +19,7 @@ config/icon="res://sprites/flower.png"
 
 window/size/viewport_width=512
 window/size/viewport_height=768
+window/size/mode=3
 window/stretch/mode="viewport"
 
 [dotnet]
