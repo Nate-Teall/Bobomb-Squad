@@ -38,7 +38,7 @@ public partial class GameManager : Node
 	// Game state variables
 	private bool gameStarted = false;
 	private RichTextLabel startLabel;
-	private const string endText = "  * Game Over *\n\n Press Space to \n     Restart\n\n Score: ";
+	private const string endText = "  * Game Over *\n\n Press Red to \n     Restart\n\n Score: ";
 
 	// Audio related variables
 	private AudioStreamPlayer musicPlayer;
@@ -85,6 +85,11 @@ public partial class GameManager : Node
 
     public override void _Input(InputEvent @event)
     {
+		if (Input.IsActionJustPressed("quit"))
+		{
+			GetTree().Quit();
+		}
+
         if (Input.IsActionJustPressed("start") && gameStarted == false)
 		{
 			gameStarted = true;

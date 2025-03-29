@@ -175,8 +175,8 @@ theme_override_fonts/normal_font = ExtResource("8_4yi5u")
 theme_override_font_sizes/normal_font_size = 28
 text = "* Bobomb Squad *
 
- Press Space to 
-     Start"
+  Press The Red 
+ Button to Start"
 
 [connection signal="animation_looped" from="Toad" to="Toad" method="_AnimationLooped"]
 [connection signal="animation_looped" from="Toad2" to="Toad2" method="_AnimationLooped"]

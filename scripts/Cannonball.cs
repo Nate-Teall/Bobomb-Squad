@@ -21,6 +21,7 @@ public partial class Cannonball : CharacterBody2D
 	private static AudioStreamPlayer audio;
 
 	private const int speed = 800;
+	private const int aimSpeed = 5;
 
 	private Vector2 maxSling;
 	private Vector2 minSling;
@@ -65,7 +66,9 @@ public partial class Cannonball : CharacterBody2D
 				break;
 
 			case CannonState.Aiming:
-				Position = GetViewport().GetMousePosition().Clamp(minSling, maxSling);
+				Vector2 direction = Input.GetVector("left", "right", "up", "down");
+				Position += direction * aimSpeed;
+				Position = Position.Clamp(minSling, maxSling);
 				break;
 
 			case CannonState.Fired:
@@ -77,8 +80,15 @@ public partial class Cannonball : CharacterBody2D
 	// Called every frame, holds *all* input from the previous frame
     public override void _Input(InputEvent @event)
     {
+		// If the joystick is moved, go to aiming state
+		Vector2 direction = Input.GetVector("left", "right", "up", "down");
+		if (direction != Vector2.Zero && state == CannonState.Default)
+		{
+			state = CannonState.Aiming;
+		}
+
 		// Start firing the cannonball	 only after left click is released from the ball
-        if(Input.IsActionJustReleased("click") && state == CannonState.Aiming)
+        if(Input.IsActionJustPressed("fire") && state == CannonState.Aiming)
 		{
 			state = CannonState.Fired;
 			GetNode<Area2D>("Area2D").Monitoring = false;
@@ -92,19 +102,6 @@ public partial class Cannonball : CharacterBody2D
 			audio.VolumeDb = audio.VolumeDb == -20 ? -80 : -20;
 		}
     }
-
-    // Called every time an input event occurs within the cannonball's area
-    public void _InputEvent(Node viewport, InputEvent inputEvent, int shapeIdx)
-	{
-		// Start dragging the cannonball when the ball itself is clickeds
-		if(inputEvent is InputEventMouseButton)
-		{
-			if (inputEvent.IsPressed() && state == CannonState.Default)
-			{
-				state = CannonState.Aiming;
-			}
-		}
-	}
 
     public void _AreaEntered(Area2D area)
 	{
@@ -134,6 +131,7 @@ public partial class Cannonball : CharacterBody2D
 		slingString.Show();
 		gameManager.CountScore(bobombsHit, hitLocations);
 		bobombsHit = 0;
+		Velocity = Vector2.Zero;
 		hitLocations.Clear();
 	}
 }
