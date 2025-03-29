@@ -38,7 +38,7 @@ public partial class GameManager : Node
 	// Game state variables
 	private bool gameStarted = false;
 	private RichTextLabel startLabel;
-	private const string endText = "  * Game Over *\n\n Press Red to \n     Restart\n\n Score: ";
+	private const string endText = " * Game Over *\n\n Press The Red \n   Button to \n    Restart\n\n Score: ";
 
 	// Audio related variables
 	private AudioStreamPlayer musicPlayer;
