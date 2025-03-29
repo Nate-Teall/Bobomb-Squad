@@ -81,7 +81,7 @@ animations = [{
 
 [node name="Node" type="Node"]
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,6 +89,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_dfm11")
+stretch_mode = 5
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("2_lkktv")
